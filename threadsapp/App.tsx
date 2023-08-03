@@ -3,7 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import Main from './Navigations/Main';
 import Auth from './Navigations/Auth';
 import Store from './redux/Store';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 
 function App() {
   return (
@@ -14,10 +14,10 @@ function App() {
 }
 
 const AppStack = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const {isAuthenticated} = useSelector((state:any) => state.user)
   return (
     <>
-      {isLogin ? (
+      {isAuthenticated ? (
         <NavigationContainer>
           <Main />
         </NavigationContainer>

@@ -28,3 +28,28 @@ export const registerUser =
       console.log(error)
     }
   };
+
+//Load User
+export const loadUser =
+  () =>
+  async (dispatch: Dispatch<any>) => {
+    try {
+      dispatch({
+        type: 'userRegisterRequest',
+      });
+
+      const {data} = await axios.get(
+        `${URI}/registration`
+      );
+      dispatch({
+        type: 'userRegisterSuccess',
+        payload: data,
+      });
+    } catch (error: any) {
+      dispatch({
+        type: 'userRegisterFailed',
+        payload: error.response.data.message,
+      });
+      console.log(error)
+    }
+  };

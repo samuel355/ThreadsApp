@@ -41,5 +41,6 @@ export const userReducer = createReducer(initialState, {
     },
     clearErrors: state =>{
         state.error = null
+        state.isAuthenticated = false
     }
 })

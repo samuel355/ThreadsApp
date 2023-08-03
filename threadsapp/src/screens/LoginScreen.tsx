@@ -22,7 +22,7 @@ const LoginScreen = ({navigation}: Props) => {
 
   return (
     <View style={tw`flex-1 items-center justify-center`}>
-      <View style={tw`w-2/3`}>
+      <View style={tw`w-80`}>
         <Text style = {tw `text-xl font-semibold text-center`}>Login</Text>
         <TextInput 
           placeholder='Enter your email' 

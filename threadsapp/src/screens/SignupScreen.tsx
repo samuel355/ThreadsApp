@@ -25,7 +25,7 @@ const SignupScreen = ({navigation}: Props) => {
   const [conPassword, setConPassword] = useState('');
   const [avatar, setAvatar] = useState('');
 
-  const {error, user, loading, message} = useSelector((state: any) => state.user)
+  const {error, user, loading, message, isAuthenticated} = useSelector((state: any) => state.user)
 
   useEffect(() => {
     if(error){
@@ -33,6 +33,9 @@ const SignupScreen = ({navigation}: Props) => {
     }
     if(message){
       Alert.alert(message)
+    }
+    if(isAuthenticated) {
+      navigation.navigate('Home Screen');
     }
   },[error, message])
 
@@ -43,8 +46,8 @@ const SignupScreen = ({navigation}: Props) => {
       cropping: true,
       compressImageQuality: 0.9,
       includeBase64: true,
-     //mediaType: 'photo',
-    }).then((image: ImageOrVideo | null) => {
+      mediaType: 'photo',
+    }).then(image => {
       if(image){
         setAvatar('data:image/jpeg;base64,' + image.data);
       }
@@ -70,7 +73,7 @@ const SignupScreen = ({navigation}: Props) => {
     setEmail('')
     setPassword('')
     setConPassword('')
-    setAvatar('https://cdn-icons-png.flaticon.com/512/6596/6596121.png');
+    setAvatar('');
   };
 
   return (
@@ -83,7 +86,7 @@ const SignupScreen = ({navigation}: Props) => {
       ) : (
         <></>
       )}
-      <View style={tw`w-2/3`}>
+      <View style={tw`w-80`}>
         <Text style={tw`text-xl font-semibold text-center`}>
           Create Account
         </Text>

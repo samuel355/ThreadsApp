@@ -12,7 +12,7 @@ const Main = (props: Props) => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="Home" component={Tabs} />
+      <Stack.Screen name="Home Screen" component={Tabs} />
     </Stack.Navigator>
   );
 };
