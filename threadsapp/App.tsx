@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import Main from './Navigations/Main';
 import Auth from './Navigations/Auth';
 import Store from './redux/Store';
 import { Provider, useSelector } from 'react-redux';
+import { loadUser } from './redux/actions/userAction';
 
 function App() {
   return (
@@ -14,7 +15,13 @@ function App() {
 }
 
 const AppStack = () => {
-  const {isAuthenticated} = useSelector((state:any) => state.user)
+  const {isAuthenticated, user} = useSelector((state:any) => state.user)
+  useEffect(() => {
+    //Store.dispatch(loadUser())
+    if(user){
+      
+    }
+  },[])
   return (
     <>
       {isAuthenticated ? (
