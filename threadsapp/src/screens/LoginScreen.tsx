@@ -28,12 +28,12 @@ const LoginScreen = ({navigation}: Props) => {
     if(error){
       Alert.alert(error)
     }
-    // if(user){
-      
-    // }
+    if(user){
+      navigation.navigate('Home')
+    }
   }, [error, user])
 
-  console.log(user)
+
   return (
     <View style={tw`flex-1 items-center justify-center relative`}>
       {loading ? (
@@ -69,7 +69,7 @@ const LoginScreen = ({navigation}: Props) => {
         <View style={tw`pt-2 flex flex-row`}>
           <Text>Don't have an account yet?</Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Signup')}
+            onPress={() => navigation.navigate('Home Screen')}
             style={tw`font-bold ml-2`}>
             <Text style={tw`font-semibold`}>Sign up</Text>
           </TouchableOpacity>

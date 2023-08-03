@@ -21,9 +21,6 @@ export const registerUser =
         type: 'userRegisterSuccess',
         payload: data,
       });
-
-      const user = JSON.stringify(data.user);
-      await AsyncStorage.setItem('user', user);
     } catch (error: any) {
       dispatch({
         type: 'userRegisterFailed',
@@ -79,5 +76,22 @@ export const loadUser = () => async (dispatch: Dispatch<any>) => {
       payload: error.response.data.message,
     });
     console.log(error);
+  }
+};
+
+//Logout User
+export const logoutUser = () => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch({
+      type: 'userLogoutRequest',
+    });
+
+    dispatch({
+      type: 'userLogoutSuccess',
+    });
+  } catch (error) {
+    dispatch({
+      type: 'userLogoutFailed',
+    });
   }
 };
