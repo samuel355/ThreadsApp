@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Alert,
   Image,
+  ActivityIndicator
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import tw from 'tailwind-react-native-classnames';
@@ -50,8 +51,6 @@ const SignupScreen = ({navigation}: Props) => {
     });
   };
 
-console.log(user)
-
   const handleSubmit = (e: any) => {
     e.preventDefault()
     if(name === '' && email === '') {
@@ -63,11 +62,27 @@ console.log(user)
     if(password !== conPassword) {
       return Alert.alert('Passwords do not match')
     }
+    if(avatar === ''){
+      return Alert.alert('Add your profile photo')
+    }
     registerUser(name, email, password, avatar)(dispatch);
+    setName('')
+    setEmail('')
+    setPassword('')
+    setConPassword('')
+    setAvatar('https://cdn-icons-png.flaticon.com/512/6596/6596121.png');
   };
 
   return (
-    <View style={tw`flex-1 items-center justify-center`}>
+    <View style={tw`flex-1 items-center justify-center relative`}>
+      {loading ? (
+        <View
+          style={tw`flex justify-center items-center w-full h-full bg-gray-900 absolute opacity-40`}>
+          <ActivityIndicator size="small" color="white" />
+        </View>
+      ) : (
+        <></>
+      )}
       <View style={tw`w-2/3`}>
         <Text style={tw`text-xl font-semibold text-center`}>
           Create Account
