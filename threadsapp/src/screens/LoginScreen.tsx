@@ -1,82 +1,86 @@
-import { View, Text, TextInput, TouchableOpacity, ToastAndroid, Alert, ActivityIndicator } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import tw from 'tailwind-react-native-classnames';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../redux/actions/userAction';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  ToastAndroid,
+  Platform,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {loadUser, loginUser} from '../../redux/actions/userAction';
+import {useDispatch, useSelector} from 'react-redux';
 
 type Props = {
   navigation: any;
-}
+};
 
 const LoginScreen = ({navigation}: Props) => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const dispatch = useDispatch()
-
-  const {user, error, loading} = useSelector((state:any) => state.user)
-
-  const submitHandler = (e:any) => {
-    if(email === '' && password === ''){
-      return Alert.alert("Enter your email and password")
-    }
-    loginUser(email, password)(dispatch)
-    setEmail('')
-    setPassword('')
-  }
+  const {error, isAuthenticated} = useSelector((state: any) => state.user);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const submitHandler = (e: any) => {
+    loginUser(email, password)(dispatch);
+  };
 
   useEffect(() => {
-    if(error){
-      Alert.alert(error)
+    if (error) {
+      if (Platform.OS === 'android') {
+        ToastAndroid.show(
+          'Email and password not matching!',
+          ToastAndroid.LONG,
+        );
+      } else {
+        Alert.alert('Email and password not matching!');
+      }
     }
-    if(user){
-      navigation.navigate('Home')
+    if (isAuthenticated) {
+      loadUser()(dispatch);
+      if (Platform.OS === 'android') {
+      ToastAndroid.show('Login successful!', ToastAndroid.LONG);
+      } else{
+        Alert.alert('Login successful!');
+      }
     }
-  }, [error, user])
-
+  }, [isAuthenticated, error]);
 
   return (
-    <View style={tw`flex-1 items-center justify-center relative`}>
-      {loading ? (
-        <View
-          style={tw`flex justify-center items-center w-full h-full bg-gray-900 absolute opacity-40`}>
-          <ActivityIndicator size="small" color="white" />
-        </View>
-      ) : (
-        <></>
-      )}
-      <View style={tw`w-80`}>
-        <Text style={tw`text-xl font-semibold text-center`}>Login</Text>
+    <View className="flex-[1] items-center justify-center">
+      <View className="w-[70%]">
+        <Text className="text-[25px] font-[600] text-center text-black">
+          Login
+        </Text>
         <TextInput
           placeholder="Enter your email"
-          style={tw`w-full h-8 border border-gray-400 px-2 my-2 rounded-sm`}
           value={email}
+          placeholderTextColor={'#000'}
           onChangeText={text => setEmail(text)}
-          autoCapitalize="none"
+          className="w-full h-[35px] border border-[#00000072] px-2 my-2 text-black"
         />
         <TextInput
           placeholder="Enter your password"
-          style={tw`w-full h-8 border border-gray-400 px-2 my-2 rounded-sm`}
-          secureTextEntry={true}
+          className="w-full h-[35px] border border-[#00000072] px-2 my-2 text-black"
           value={password}
+          placeholderTextColor={'#000'}
           onChangeText={text => setPassword(text)}
-          autoCapitalize="none"
+          secureTextEntry={true}
         />
-        <TouchableOpacity
-          onPress={submitHandler}
-          style={tw`w-full h-8 bg-gray-700 rounded-sm mt-2`}>
-          <Text style={tw`text-white text-lg text-center`}>Login</Text>
+        <TouchableOpacity className="mt-6">
+          <Text
+            className="w-full text-[#fff] text-center pt-[8px] text-[20px] h-[40px] bg-black"
+            onPress={submitHandler}>
+            Login
+          </Text>
         </TouchableOpacity>
-        <View style={tw`pt-2 flex flex-row`}>
-          <Text>Don't have an account yet?</Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Home Screen')}
-            style={tw`font-bold ml-2`}>
-            <Text style={tw`font-semibold`}>Sign up</Text>
-          </TouchableOpacity>
-        </View>
+        <Text
+          className="pt-3 text-black"
+          onPress={() => navigation.navigate('Signup')}>
+          Don't have any account? <Text>Sign up</Text>
+        </Text>
       </View>
     </View>
   );
-}
+};
 
-export default LoginScreen
+export default LoginScreen;

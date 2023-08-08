@@ -2,156 +2,120 @@ import {
   View,
   Text,
   TextInput,
+  Button,
   TouchableOpacity,
+  ToastAndroid,
   Alert,
   Image,
-  ActivityIndicator
+  Platform,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import tw from 'tailwind-react-native-classnames';
-import ImagePicker from 'react-native-image-crop-picker';
-import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../../redux/actions/userAction';
+import {useEffect, useState} from 'react';
+import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
+import {useDispatch, useSelector} from 'react-redux';
+import {loadUser, registerUser} from '../../redux/actions/userAction';
 
 type Props = {
   navigation: any;
 };
 
 const SignupScreen = ({navigation}: Props) => {
-  const dispatch = useDispatch()
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [conPassword, setConPassword] = useState('');
   const [avatar, setAvatar] = useState('');
-
-  const {error, user, loading, message, isAuthenticated} = useSelector((state: any) => state.user)
+  const dispatch = useDispatch();
+  const {error, isAuthenticated} = useSelector((state: any) => state.user);
 
   useEffect(() => {
-    if(error){
-      Alert.alert(error)
+    if (error) {
+      if(Platform.OS === 'android'){
+        ToastAndroid.show(error, ToastAndroid.LONG);
+      } else{
+        Alert.alert(error);
+      }
     }
-    if(message){
-      Alert.alert(message)
+    if (isAuthenticated) {
+      loadUser()(dispatch);
     }
-    if(isAuthenticated) {
-      navigation.navigate('Home Screen');
-    }
-  },[error, message])
+  }, [error, isAuthenticated]);
 
   const uploadImage = () => {
     ImagePicker.openPicker({
       width: 300,
       height: 300,
       cropping: true,
-      compressImageQuality: 0.9,
+      compressImageQuality: 0.8,
       includeBase64: true,
-      mediaType: 'photo',
-    }).then(image => {
-      if(image){
+    }).then((image: ImageOrVideo | null) => {
+      if (image) {
         setAvatar('data:image/jpeg;base64,' + image.data);
       }
     });
   };
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault()
-    if(name === '' && email === '') {
-      return Alert.alert('Please fill all the details')
+  const submitHandler = (e: any) => {
+   if(avatar === '' || name === '' || email === ''){
+    if(Platform.OS === 'android'){
+    ToastAndroid.show('Please fill the all fields and upload avatar', ToastAndroid.LONG);
+    } else{
+      Alert.alert('Please fill the all fields and upload avatar')
     }
-    if (password === '' && conPassword === ''){
-      return Alert.alert('Enter your password')
-    }
-    if(password !== conPassword) {
-      return Alert.alert('Passwords do not match')
-    }
-    if(avatar === ''){
-      return Alert.alert('Add your profile photo')
-    }
+   } else{
     registerUser(name, email, password, avatar)(dispatch);
-    setName('')
-    setEmail('')
-    setPassword('')
-    setConPassword('')
-    setAvatar('');
+   }
   };
 
   return (
-    <View style={tw`flex-1 items-center justify-center relative`}>
-      {loading ? (
-        <View
-          style={tw`flex justify-center items-center w-full h-full bg-gray-900 absolute opacity-40`}>
-          <ActivityIndicator size="small" color="white" />
-        </View>
-      ) : (
-        <></>
-      )}
-      <View style={tw`w-80`}>
-        <Text style={tw`text-xl font-semibold text-center`}>
-          Create Account
+    <View className="flex-[1] items-center justify-center">
+      <View className="w-[70%]">
+        <Text className="text-[25px] font-[600] text-center text-black">
+          Sign Up
         </Text>
-        <Image
-          style={tw`h-14 w-14 rounded-full bg-gray-600 mx-auto mt-2`}
-          source={{
-            uri: avatar
-              ? avatar
-              : 'https://cdn-icons-png.flaticon.com/512/6596/6596121.png',
-          }}
-        />
         <TextInput
-          placeholder="Enter your full name"
-          style={tw`w-full h-8 border border-gray-400 px-2 my-2 rounded-sm`}
+          placeholder="Enter your name"
           value={name}
           onChangeText={text => setName(text)}
-          autoCapitalize="none"
+          placeholderTextColor={'#000'}
+          className="w-full h-[35px] border text-black border-[#00000072] px-2 my-2"
         />
         <TextInput
           placeholder="Enter your email"
-          style={tw`w-full h-8 border border-gray-400 px-2 my-2 rounded-sm`}
           value={email}
           onChangeText={text => setEmail(text)}
-          autoCapitalize="none"
+          placeholderTextColor={'#000'}
+          className="w-full h-[35px] border border-[#00000072] text-black px-2 my-2"
         />
         <TextInput
           placeholder="Enter your password"
-          style={tw`w-full h-8 border border-gray-400 px-2 my-2 rounded-sm`}
-          secureTextEntry={true}
+          className="w-full h-[35px] border text-black border-[#00000072] px-2 my-2"
           value={password}
           onChangeText={text => setPassword(text)}
-          autoCapitalize="none"
-        />
-        <TextInput
-          placeholder="Re-enter your password"
-          style={tw`w-full h-8 border border-gray-400 px-2 my-2 rounded-sm`}
           secureTextEntry={true}
-          value={conPassword}
-          onChangeText={text => setConPassword(text)}
-          autoCapitalize="none"
+          placeholderTextColor={'#000'}
         />
-        <TouchableOpacity onPress={uploadImage} style={tw`flex flex-row py-2`}>
+        <TouchableOpacity
+          className="flex-row items-center"
+          onPress={uploadImage}>
           <Image
-            style={tw`w-4 h-4`}
             source={{
-              uri: 'https://img.icons8.com/?size=512&id=84056&format=png',
+              uri: avatar
+                ? avatar
+                : 'https://cdn-icons-png.flaticon.com/128/568/568717.png',
             }}
+            className="w-[30px] h-[30px] rounded-full"
           />
-          <Text style={tw`underline ml-2`}>
-            {avatar ? 'Change profile photo' : 'Upload Profile Photo'}
+          <Text className="text-black pl-2">upload image</Text>
+        </TouchableOpacity>
+        <TouchableOpacity className="mt-6" onPress={submitHandler}>
+          <Text className="w-full text-[#fff] text-center pt-[8px] text-[20px] h-[40px] bg-black">
+            Sign Up
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleSubmit}
-          style={tw`w-full h-8 bg-gray-700 rounded-sm mt-2`}>
-          <Text style={tw`text-white text-lg text-center`}>Sign Up</Text>
-        </TouchableOpacity>
-        <View style={tw`pt-2 flex flex-row`}>
-          <Text>Already have an account yet?</Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Login')}
-            style={tw`font-bold ml-2`}>
-            <Text style={tw`font-semibold`}>Login</Text>
-          </TouchableOpacity>
-        </View>
+        <Text
+          className="pt-3 text-black"
+          onPress={() => navigation.navigate('Login')}>
+          Already have an account? <Text>Sign in</Text>
+        </Text>
       </View>
     </View>
   );

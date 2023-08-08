@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "lottie-react-native": "^6.1.0",
     "react-native-vector-icons": "^10.0.0"
   }
 }
