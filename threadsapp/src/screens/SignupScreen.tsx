@@ -13,6 +13,7 @@ import {useEffect, useState} from 'react';
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import {loadUser, registerUser} from '../../redux/actions/userAction';
+import tw from 'tailwind-react-native-classnames';
 
 type Props = {
   navigation: any;
@@ -46,7 +47,7 @@ const SignupScreen = ({navigation}: Props) => {
       cropping: true,
       compressImageQuality: 0.8,
       includeBase64: true,
-    }).then((image: ImageOrVideo | null) => {
+    }).then((image: any) => {
       if (image) {
         setAvatar('data:image/jpeg;base64,' + image.data);
       }
@@ -66,9 +67,9 @@ const SignupScreen = ({navigation}: Props) => {
   };
 
   return (
-    <View className="flex-[1] items-center justify-center">
-      <View className="w-[70%]">
-        <Text className="text-[25px] font-[600] text-center text-black">
+    <View style={tw`flex-1 items-center justify-center`}>
+      <View style={tw`w-80`}>
+        <Text style={tw`text-xl font-semibold text-center text-black`}>
           Sign Up
         </Text>
         <TextInput
@@ -76,25 +77,25 @@ const SignupScreen = ({navigation}: Props) => {
           value={name}
           onChangeText={text => setName(text)}
           placeholderTextColor={'#000'}
-          className="w-full h-[35px] border text-black border-[#00000072] px-2 my-2"
+          style={tw`w-full h-9 border text-black border-gray-950 px-2 my-2`}
         />
         <TextInput
           placeholder="Enter your email"
           value={email}
           onChangeText={text => setEmail(text)}
           placeholderTextColor={'#000'}
-          className="w-full h-[35px] border border-[#00000072] text-black px-2 my-2"
+          style={tw`w-full h-9 border border-gray-950 text-black px-2 my-2`}
         />
         <TextInput
           placeholder="Enter your password"
-          className="w-full h-[35px] border text-black border-[#00000072] px-2 my-2"
+          style={tw`w-full h-9 border text-black border-gray-950 px-2 my-2`}
           value={password}
           onChangeText={text => setPassword(text)}
           secureTextEntry={true}
           placeholderTextColor={'#000'}
         />
         <TouchableOpacity
-          className="flex-row items-center"
+          style={tw`flex-row items-center`}
           onPress={uploadImage}>
           <Image
             source={{
@@ -102,19 +103,21 @@ const SignupScreen = ({navigation}: Props) => {
                 ? avatar
                 : 'https://cdn-icons-png.flaticon.com/128/568/568717.png',
             }}
-            className="w-[30px] h-[30px] rounded-full"
+            style={tw`w-9 h-9 rounded-full`}
           />
           <Text className="text-black pl-2">upload image</Text>
         </TouchableOpacity>
         <TouchableOpacity className="mt-6" onPress={submitHandler}>
-          <Text className="w-full text-[#fff] text-center pt-[8px] text-[20px] h-[40px] bg-black">
+          <Text
+            style={tw`w-full text-white text-center py-2 text-xl mt-2 bg-black`}>
             Sign Up
           </Text>
         </TouchableOpacity>
         <Text
-          className="pt-3 text-black"
+          style={tw`py-3 text-black`}
           onPress={() => navigation.navigate('Login')}>
-          Already have an account? <Text>Sign in</Text>
+          Already have an account?{' '}
+          <Text style={tw`font-semibold text-lg`}>Sign in</Text>
         </Text>
       </View>
     </View>

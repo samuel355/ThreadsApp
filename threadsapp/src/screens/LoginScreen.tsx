@@ -10,6 +10,8 @@ import {
 import React, {useEffect, useState} from 'react';
 import {loadUser, loginUser} from '../../redux/actions/userAction';
 import {useDispatch, useSelector} from 'react-redux';
+import {useTailwind} from 'tailwind-rn';
+import tw from 'tailwind-react-native-classnames';
 
 type Props = {
   navigation: any;
@@ -46,9 +48,9 @@ const LoginScreen = ({navigation}: Props) => {
   }, [isAuthenticated, error]);
 
   return (
-    <View className="flex-[1] items-center justify-center">
-      <View className="w-[70%]">
-        <Text className="text-[25px] font-[600] text-center text-black">
+    <View style={tw`flex-1 items-center justify-center`}>
+      <View style={tw`w-80`}>
+        <Text style={tw`text-xl font-semibold text-center text-black`}>
           Login
         </Text>
         <TextInput
@@ -56,27 +58,27 @@ const LoginScreen = ({navigation}: Props) => {
           value={email}
           placeholderTextColor={'#000'}
           onChangeText={text => setEmail(text)}
-          className="w-full h-[35px] border border-[#00000072] px-2 my-2 text-black"
+          style={tw`w-full h-9 border border-gray-950 px-2 my-2 text-black`}
         />
         <TextInput
           placeholder="Enter your password"
-          className="w-full h-[35px] border border-[#00000072] px-2 my-2 text-black"
+          style={tw`w-full h-9 border border-gray-950 px-2 my-2 text-black`}
           value={password}
           placeholderTextColor={'#000'}
           onChangeText={text => setPassword(text)}
           secureTextEntry={true}
         />
-        <TouchableOpacity className="mt-6">
+        <TouchableOpacity className="mt-5">
           <Text
-            className="w-full text-[#fff] text-center pt-[8px] text-[20px] h-[40px] bg-black"
+            style={tw`w-full text-white text-center py-1 mt-3 text-xl bg-black`}
             onPress={submitHandler}>
             Login
           </Text>
         </TouchableOpacity>
         <Text
-          className="pt-3 text-black"
+          style={tw`pt-3 text-black`}
           onPress={() => navigation.navigate('Signup')}>
-          Don't have any account? <Text>Sign up</Text>
+          Don't have any account? <Text style={tw`font-semibold text-lg`}>Sign up</Text>
         </Text>
       </View>
     </View>
