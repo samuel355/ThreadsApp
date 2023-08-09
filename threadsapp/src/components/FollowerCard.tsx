@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  StyleSheet,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -13,6 +14,7 @@ import {
   loadUser,
   unfollowUserAction,
 } from '../../redux/actions/userAction';
+import tw from 'tailwind-react-native-classnames';
 
 type Props = {
   route: any;
@@ -51,8 +53,8 @@ const FollowerCard = ({navigation, route}: Props) => {
 
   return (
     <SafeAreaView>
-      <View className="p-3 relative mb-2">
-        <View className="flex-row items-center">
+      <View style={tw`p-3 relative mb-2`}>
+        <View style={tw`flex-row items-center`}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image
               source={{
@@ -62,52 +64,58 @@ const FollowerCard = ({navigation, route}: Props) => {
               width={25}
             />
           </TouchableOpacity>
-          <Text className="pl-3 text-[20px] font-[600] text-[#000]">
+          <Text style={tw`pl-3 text-xl font-[600] text-black`}>
             {item?.name}
           </Text>
         </View>
-        <View className="w-[80%] pt-5 m-auto flex-row justify-between">
+        <View style={tw`w-80 pt-5 m-auto flex-row justify-between`}>
           <TouchableOpacity onPress={() => setActive(0)}>
             <Text
-              className="text-[18px] pl-3 text-[#000]"
-              style={{opacity: active === 0 ? 1 : 0.6}}>
+              style={{
+                ...styles.links,
+                opacity: active === 0 ? 1 : 0.6,
+              }}>
               Followers
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setActive(1)}>
             <Text
-              className="text-[18px] pl-3 text-[#000]"
-              style={{opacity: active === 1 ? 1 : 0.6}}>
+              style={{
+                ...styles.links,
+                opacity: active === 0 ? 1 : 0.6,
+              }}>
               Following
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => setActive(2)}>
             <Text
-              className="text-[18px] pl-3 text-[#000]"
-              style={{opacity: active === 2 ? 1 : 0.6}}>
+              style={{
+                ...styles.links,
+                opacity: active === 0 ? 1 : 0.6,
+              }}>
               Pending
             </Text>
           </TouchableOpacity>
         </View>
 
         {active === 0 ? (
-          <View className="w-[40%] absolute h-[1px] bg-black left-[-10px] bottom-0" />
+          <View style={tw`w-40 absolute h-1 bg-black left-[-10px] bottom-0`} />
         ) : active === 1 ? (
-          <View className="w-[30%] absolute h-[1px] bg-black right-[31%] bottom-0" />
+          <View style={tw`w-30 absolute h-1 bg-black right-[31%] bottom-0`} />
         ) : (
-          <View className="w-[32%] absolute h-[1px] bg-black right-[0%] bottom-0" />
+          <View style={tw`w-30 absolute h-1 bg-black right-[0%] bottom-0`} />
         )}
       </View>
 
       {active === 0 && (
-        <Text className="py-2 text-center text-black text-[16px]">
+        <Text style={tw`py-2 text-center text-black text-md`}>
           {followers?.length} followers
         </Text>
       )}
 
       {active === 1 && (
-        <Text className="py-2 text-center text-black text-[16px]">
+        <Text style={tw`py-2 text-center text-black text-md`}>
           {following?.length} following
         </Text>
       )}
@@ -139,24 +147,22 @@ const FollowerCard = ({navigation, route}: Props) => {
 
             return (
               <TouchableOpacity
-                className="w-[95%] m-auto py-3 flex-row justify-between"
+                style={tw`w-90 m-auto py-3 flex-row justify-between`}
                 onPress={() =>
                   navigation.navigate('UserProfile', {
                     item,
                   })
                 }>
-                <View className="flex-row">
+                <View style={tw`flex-row`}>
                   <Image
                     source={{uri: item?.avatar?.url}}
                     width={40}
                     height={40}
                     borderRadius={100}
                   />
-                  <View className="pl-3">
-                    <View className="flex-row items-center relative">
-                      <Text className="text-[18px] text-black">
-                        {item?.name}
-                      </Text>
+                  <View style={tw`pl-3`}>
+                    <View style={tw`flex-row items-center relative`}>
+                      <Text style={tw`text-lg text-black`}>{item?.name}</Text>
                       {item.role === 'Admin' && (
                         <Image
                           source={{
@@ -164,20 +170,20 @@ const FollowerCard = ({navigation, route}: Props) => {
                           }}
                           width={15}
                           height={15}
-                          className="ml-1"
+                          style={tw`ml-1`}
                         />
                       )}
                     </View>
-                    <Text className="text-[16px] text-[#000000ba]">
+                    <Text style={tw`"text-md text-gray-950`}>
                       {item?.userName}
                     </Text>
                   </View>
                 </View>
                 {user._id !== item._id && (
                   <TouchableOpacity
-                    className="rounded-[8px] w-[100px] flex-row justify-center items-center h-[35px] border border-[#0000004b]"
+                    style={tw`rounded-md w-20 flex-row justify-center items-center h-20 border border-gray-900`}
                     onPress={() => handleFollowUnfollow(item)}>
-                    <Text className="text-black">
+                    <Text style={tw`text-black`}>
                       {item?.followers?.find((i: any) => i.userId === user._id)
                         ? 'Following'
                         : 'Follow'}
@@ -191,10 +197,18 @@ const FollowerCard = ({navigation, route}: Props) => {
       )}
 
       {active === 2 && (
-        <Text className="text-[18px] text-center pt-10 text-black">No Pending</Text>
+        <Text style={tw`text-lg text-center pt-10 text-black`}>No Pending</Text>
       )}
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  links: {
+    fontSize: 24,
+    paddingLeft: 14,
+    color: 'black',
+  },
+});
 
 export default FollowerCard;

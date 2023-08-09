@@ -17,6 +17,7 @@ import {
 import axios from 'axios';
 import {URI} from '../../redux/URI';
 import PostDetailsCard from './PostDetailsCard';
+import tw from 'tailwind-react-native-classnames';
 
 type Props = {
   navigation: any;
@@ -92,10 +93,10 @@ const PostCard = ({item, isReply, navigation, postId, replies}: Props) => {
   }, [users]);
 
   return (
-    <View className="p-[15px] border-b border-b-[#00000017]">
-      <View className="relative">
-        <View className="flex-row w-full">
-          <View className="flex-row w-[85%] items-center">
+    <View style={tw`p-3 border-b border-gray-900`}>
+      <View style={tw`relative`}>
+        <View style={tw`flex-row w-full`}>
+          <View style={tw`flex-row w-80 items-center`}>
             <TouchableOpacity onPress={() => profileHandler(item.user)}>
               <Image
                 source={{uri: userInfo?.avatar?.url}}
@@ -104,11 +105,11 @@ const PostCard = ({item, isReply, navigation, postId, replies}: Props) => {
                 borderRadius={100}
               />
             </TouchableOpacity>
-            <View className="pl-3 w-[70%]">
+            <View style={tw`pl-3 w-70`}>
               <TouchableOpacity
-                className="flex-row items-center"
+                style={tw`flex-row items-center`}
                 onPress={() => profileHandler(userInfo)}>
-                <Text className="text-black font-[500] text-[16px]">
+                <Text style={tw`text-black font-bold text-md`}>
                   {userInfo?.name}
                 </Text>
                 {userInfo?.role === 'Admin' && (
@@ -118,24 +119,22 @@ const PostCard = ({item, isReply, navigation, postId, replies}: Props) => {
                     }}
                     width={15}
                     height={15}
-                    className="ml-1"
+                    style={tw`ml-1`}
                   />
                 )}
               </TouchableOpacity>
-              <Text className="text-black font-[500] text-[13px]">
-                {item.title}
-              </Text>
+              <Text style={tw`text-black font-bold text-sm`}>{item.title}</Text>
             </View>
           </View>
-          <View className="flex-row items-center">
-            <Text className="text-[#000000b6]">{formattedDuration}</Text>
+          <View style={tw`flex-row items-center`}>
+            <Text style={tw`text-gray-900`}>{formattedDuration}</Text>
             <TouchableOpacity
               onPress={() => item.user._id === user._id && setOpenModal(true)}>
-              <Text className="text-[#000] pl-4 font-[700] mb-[8px]">...</Text>
+              <Text style={tw`text-black pl-4 font-bold mb-3`}>...</Text>
             </TouchableOpacity>
           </View>
         </View>
-        <View className="ml-[50px] my-3">
+        <View style={tw`ml-4 my-3`}>
           {item.image && (
             <Image
               source={{uri: item.image.url}}
@@ -145,11 +144,11 @@ const PostCard = ({item, isReply, navigation, postId, replies}: Props) => {
           )}
         </View>
         {item.image ? (
-          <View className="absolute top-12 left-5 h-[90%] w-[1px] bg-[#00000017]" />
+          <View style={tw`absolute top-12 left-5 h-90 w-1 bg-gray-950`} />
         ) : (
-          <View className="absolute top-12 left-5 h-[60%] w-[1px] bg-[#00000017]" />
+          <View style={tw`absolute top-12 left-5 h-60 w-1 bg-gray-950`} />
         )}
-        <View className="flex-row items-center left-[50px] top-[5px]">
+        <View style={tw`flex-row items-center left-5 top-5`}>
           <TouchableOpacity onPress={() => reactsHandler(item)}>
             {item.likes.length > 0 ? (
               <>
@@ -195,7 +194,7 @@ const PostCard = ({item, isReply, navigation, postId, replies}: Props) => {
               }}
               width={22}
               height={22}
-              className="ml-5"
+              style={tw`ml-5`}
             />
           </TouchableOpacity>
           <TouchableOpacity>
@@ -205,7 +204,7 @@ const PostCard = ({item, isReply, navigation, postId, replies}: Props) => {
               }}
               width={25}
               height={25}
-              className="ml-5"
+              style={tw`ml-5`}
             />
           </TouchableOpacity>
           <TouchableOpacity>
@@ -215,19 +214,19 @@ const PostCard = ({item, isReply, navigation, postId, replies}: Props) => {
               }}
               width={25}
               height={25}
-              className="ml-5"
+              style={tw`ml-5`}
             />
           </TouchableOpacity>
         </View>
         {!isReply && (
-          <View className="pl-[50px] pt-4 flex-row">
+          <View style={tw`pl-5 pt-4 flex-row`}>
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate('PostDetails', {
                   data: item,
                 })
               }>
-              <Text className="text-[16px[ text-[#0000009b]">
+              <Text style={tw`pl-5 pt-4 flex-row`}>
                 {item?.replies?.length !== 0 &&
                   `${item?.replies?.length} replies ·`}{' '}
               </Text>
@@ -240,7 +239,7 @@ const PostCard = ({item, isReply, navigation, postId, replies}: Props) => {
                   navigation: navigation,
                 })
               }>
-              <Text className="text-[16px[ text-[#0000009b]">
+              <Text style={tw`pl-5 pt-4 flex-row`}>
                 {item.likes.length} {item.likes.length > 1 ? 'likes' : 'like'}
               </Text>
             </TouchableOpacity>
@@ -261,7 +260,7 @@ const PostCard = ({item, isReply, navigation, postId, replies}: Props) => {
           </>
         )}
         {openModal && (
-          <View className="flex-[1] justify-center items-center mt-[22]">
+          <View style={tw`flex-1 justify-center items-center mt-5`}>
             <Modal
               animationType="fade"
               transparent={true}
@@ -270,13 +269,14 @@ const PostCard = ({item, isReply, navigation, postId, replies}: Props) => {
                 setOpenModal(!openModal);
               }}>
               <TouchableWithoutFeedback onPress={() => setOpenModal(false)}>
-                <View className="flex-[1] justify-end bg-[#00000059]">
+                <View style={tw`flex-1 justify-end bg-black`}>
                   <TouchableWithoutFeedback onPress={() => setOpenModal(true)}>
-                    <View className="w-full bg-[#fff] h-[120] rounded-[20px] p-[20px] items-center shadow-[#000] shadow-inner">
+                    <View
+                      style={tw`w-full bg-white h-9 rounded-lg p-5 items-center drop-shadow-md shadow-inner`}>
                       <TouchableOpacity
-                        className="w-full bg-[#00000010] h-[50px] rounded-[10px] items-center flex-row pl-5"
+                        style={tw`w-full bg-black h-6 rounded-sm items-center flex-row pl-5`}
                         onPress={() => deletePostHandler(item._id)}>
-                        <Text className="text-[18px] font-[600] text-[#e24848]">
+                        <Text style={tw`text-lg font-semibold text-red-500`}>
                           Delete
                         </Text>
                       </TouchableOpacity>

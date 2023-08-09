@@ -13,6 +13,7 @@ import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import axios from 'axios';
 import {URI} from '../../redux/URI';
 import {loadUser} from '../../redux/actions/userAction';
+import tw from 'tailwind-react-native-classnames';
 
 type Props = {
   navigation: any;
@@ -51,7 +52,7 @@ const EditProfile = ({navigation}: Props) => {
       cropping: true,
       compressImageQuality: 0.8,
       includeBase64: true,
-    }).then((image: ImageOrVideo | null) => {
+    }).then((image: any) => {
       if (image) {
         // setImage('data:image/jpeg;base64,' + image.data);
         axios
@@ -75,8 +76,8 @@ const EditProfile = ({navigation}: Props) => {
 
   return (
     <SafeAreaView>
-      <View className="flex-row items-center justify-between p-3">
-        <View className="flex-row items-center">
+      <View style={tw`flex-row items-center justify-between p-3`}>
+        <View style={tw`flex-row items-center`}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image
               source={{
@@ -86,33 +87,34 @@ const EditProfile = ({navigation}: Props) => {
               height={25}
             />
           </TouchableOpacity>
-          <Text className="text-[20px] left-4 font-[600] text-[#000]">
+          <Text style={tw`text-xl left-4 font-semibold text-gray-950`}>
             Edit Profile
           </Text>
         </View>
         <TouchableOpacity onPress={handleSubmitHandler}>
-          <Text className="text-[20px] text-black">Done</Text>
+          <Text style={tw`text-xl text-black`}>Done</Text>
         </TouchableOpacity>
       </View>
-      <View className="h-[90%] items-center justify-center">
-        <View className="w-[90%] p-3 min-h-[300] h-max border rounded-[10px] border-[#0000002e]">
-          <View className="flex-row">
-            <View className="w-full flex-row justify-between">
+      <View style={tw`h-90 items-center justify-center`}>
+        <View
+          style={tw`w-90 p-3 min-h-[30%] h-max border rounded-md border-gray-950`}>
+          <View style={tw`flex-row`}>
+            <View style={tw`w-full flex-row justify-between`}>
               <View>
-                <Text className="text-[18px] font-[600] text-black">Name</Text>
+                <Text style={tw`text-md font-bold text-black`}>Name</Text>
                 <TextInput
                   value={userData.name}
                   onChangeText={e => setUserData({...userData, name: e})}
                   placeholder="Enter your name..."
                   placeholderTextColor={'#000'}
-                  className="text-[16px] text-[#000000b0]"
+                  style={tw`text-md text-gray-950`}
                 />
                 <TextInput
                   value={userData.userName}
                   onChangeText={e => setUserData({...userData, userName: e})}
                   placeholder="Enter your userName..."
                   placeholderTextColor={'#000'}
-                  className="text-[16px] mb-2 text-[#000000b0]"
+                  style={tw`text-md mb-2 text-gra-950`}
                 />
               </View>
               <TouchableOpacity onPress={ImageUpload}>
@@ -125,14 +127,14 @@ const EditProfile = ({navigation}: Props) => {
               </TouchableOpacity>
             </View>
           </View>
-          <View className="w-full border-t border-[#00000015] pt-2">
-            <Text className="text-[18px] font-[600] text-black">Bio</Text>
+          <View style={tw`w-full border-t border-gray-950 pt-2`}>
+            <Text style={tw`text-lg font-semibold text-black`}>Bio</Text>
             <TextInput
               value={userData.bio}
               onChangeText={e => setUserData({...userData, bio: e})}
               placeholder="Enter your bio..."
               placeholderTextColor={'#000'}
-              className="text-[16px] text-[#000000b0]"
+              style={tw`text-md text-gray-950`}
               multiline={true}
               numberOfLines={4}
             />

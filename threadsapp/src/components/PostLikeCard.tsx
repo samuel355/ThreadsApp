@@ -12,6 +12,7 @@ import {
   followUserAction,
   unfollowUserAction,
 } from '../../redux/actions/userAction';
+import tw from 'tailwind-react-native-classnames';
 
 type Props = {
   route: any;
@@ -26,8 +27,8 @@ const PostLikeCard = ({navigation, route}: Props) => {
 
   return (
     <SafeAreaView>
-      <View className="p-3">
-        <View className="flex-row items-center">
+      <View style={tw`p-3`}>
+        <View style={tw`flex-row items-center`}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image
               source={{
@@ -37,7 +38,7 @@ const PostLikeCard = ({navigation, route}: Props) => {
               width={25}
             />
           </TouchableOpacity>
-          <Text className="pl-3 text-[20px] font-[600] text-[#000]">Likes</Text>
+          <Text style={tw`pl-3 text-lg font-semibold text-black`}>Likes</Text>
         </View>
         <FlatList
           data={data}
@@ -63,7 +64,7 @@ const PostLikeCard = ({navigation, route}: Props) => {
             };
             return (
               <TouchableOpacity
-                className="w-full py-3 flex-row justify-between"
+                style={tw`w-full py-3 flex-row justify-between`}
                 onPress={() =>
                   item.userId === user._id
                     ? navigation.navigate('Profile')
@@ -73,38 +74,38 @@ const PostLikeCard = ({navigation, route}: Props) => {
                         ),
                       })
                 }>
-                <View className="flex-row">
+                <View style={tw`flex-row`}>
                   <Image
                     source={{uri: item.userAvatar}}
                     width={40}
                     height={40}
                     borderRadius={100}
                   />
-                  <View className="pl-3">
-                    <View className='relative flex-row items-center'>
-                    <Text className="text-[18px] text-black">
-                      {item?.name ? item.name : user.name}
-                    </Text>
-                    {item.userId === '64ba059336147d4b13bc1a6e' && (
-                      <Image
-                        source={{
-                          uri: 'https://cdn-icons-png.flaticon.com/128/1828/1828640.png',
-                        }}
-                        width={15}
-                        height={15}
-                        className="ml-1"
-                      />
-                    )}
+                  <View style={tw`pl-3`}>
+                    <View style={tw`relative flex-row items-center`}>
+                      <Text style={tw`text-lg text-black`}>
+                        {item?.name ? item.name : user.name}
+                      </Text>
+                      {item.userId === '64ba059336147d4b13bc1a6e' && (
+                        <Image
+                          source={{
+                            uri: 'https://cdn-icons-png.flaticon.com/128/1828/1828640.png',
+                          }}
+                          width={15}
+                          height={15}
+                          style={tw`ml-1`}
+                        />
+                      )}
                     </View>
-                    
-                    <Text className="text-[16px] text-[#000000ba]">
+
+                    <Text style={tw`text-lg text-black`}>
                       {item?.userName ? item.userName : user.userName}
                     </Text>
                   </View>
                 </View>
                 {user._id !== item.userId && (
                   <TouchableOpacity
-                    className="rounded-[8px] w-[100px] flex-row justify-center items-center h-[35px] border border-[#0000004b]"
+                    style={tw`rounded-sm w-8 flex-row justify-center items-center h-9 border border-black`}
                     onPress={() =>
                       handleFollowUnfollow(
                         users.find((i: any) =>
@@ -112,7 +113,7 @@ const PostLikeCard = ({navigation, route}: Props) => {
                         ),
                       )
                     }>
-                    <Text className="text-black">
+                    <Text style={tw`text-black`}>
                       {users.find(
                         (i: any) =>
                           item.userId === i._id &&

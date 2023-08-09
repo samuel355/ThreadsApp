@@ -14,6 +14,7 @@ import {
 import axios from 'axios';
 import {URI} from '../../redux/URI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import tw from 'tailwind-react-native-classnames';
 
 type Props = {
   navigation: any;
@@ -157,11 +158,11 @@ const PostDetailsCard = ({
 
   return (
     <View
-      className={`p-[15px] ${!isReply && 'border-b-[#00000017] border-b'}`}
+      className={`p-4 ${!isReply && 'border-b-gray-900 border-b'}`}
       style={{left: isReply ? 20 : 0, width: isReply ? '95%' : '100%'}}>
-      <View className="relative">
-        <View className="flex-row w-full justify-between">
-          <View className="flex-row items-center">
+      <View style={tw`relative`}>
+        <View style={tw`flex-row w-full justify-between`}>
+          <View style={tw`flex-row items-center`}>
             <TouchableOpacity onPress={() => profileHandler(userInfo)}>
               <Image
                 source={{uri: userInfo.avatar.url}}
@@ -170,10 +171,10 @@ const PostDetailsCard = ({
                 borderRadius={100}
               />
             </TouchableOpacity>
-            <View className="pl-3">
+            <View style={tw`pl-3`}>
               <TouchableOpacity onPress={() => profileHandler(userInfo)}>
-                <View className="relative flex-row items-center">
-                  <Text className="text-black font-[500] text-[16px]">
+                <View style={tw`relative flex-row items-center`}>
+                  <Text style={tw`text-black font-semibold text-lg`}>
                     {userInfo.name}
                   </Text>
                   {item.role === 'Admin' && (
@@ -183,27 +184,25 @@ const PostDetailsCard = ({
                       }}
                       width={15}
                       height={15}
-                      className="ml-1 absolute bottom-0 left-0"
+                      style={tw`ml-1 absolute bottom-0 left-0`}
                     />
                   )}
                 </View>
-                <Text className="text-[13px] text-black">
-                  {userInfo?.userName}
-                </Text>
+                <Text style={tw`text-sm text-black`}>{userInfo?.userName}</Text>
               </TouchableOpacity>
-              <Text className="text-black font-[500] text-[13px]">
+              <Text style={tw`text-black font-semibold text-sm`}>
                 {item.title}
               </Text>
             </View>
           </View>
-          <View className="flex-row items-center">
-            <Text className="text-[#000000b6]">{formattedDuration}</Text>
+          <View style={tw`flex-row items-center`}>
+            <Text style={tw`text-black`}>{formattedDuration}</Text>
             <TouchableOpacity>
-              <Text className="text-[#000] pl-4 font-[700] mb-[8px]">...</Text>
+              <Text style={tw`text-black pl-4 font-bold mb-3`}>...</Text>
             </TouchableOpacity>
           </View>
         </View>
-        <View className="ml-[50px] my-3">
+        <View style={tw`ml-5 my-3`}>
           {item.image && (
             <Image
               source={{uri: item.image.url}}
@@ -213,11 +212,11 @@ const PostDetailsCard = ({
           )}
         </View>
         {item.image ? (
-          <View className="absolute top-14 left-5 h-[90%] w-[1px] bg-[#00000017]" />
+          <View style={tw`absolute top-14 left-5 h-90 w-1 bg-black`} />
         ) : (
-          <View className="absolute top-12 left-5 h-[60%] w-[1px] bg-[#00000017]" />
+          <View style={tw`absolute top-12 left-5 h-60 w-1 bg-black`} />
         )}
-        <View className="flex-row items-center left-[50px] top-[5px]">
+        <View style={tw`flex-row items-center left-5 top-3`}>
           <TouchableOpacity
             onPress={() =>
               !isRepliesReply
@@ -270,7 +269,7 @@ const PostDetailsCard = ({
               }}
               width={22}
               height={22}
-              className="ml-5"
+              style={tw`ml-5`}
             />
           </TouchableOpacity>
           <TouchableOpacity>
@@ -280,7 +279,7 @@ const PostDetailsCard = ({
               }}
               width={25}
               height={25}
-              className="ml-5"
+              style={tw`ml-5`}
             />
           </TouchableOpacity>
           <TouchableOpacity>
@@ -290,27 +289,26 @@ const PostDetailsCard = ({
               }}
               width={25}
               height={25}
-              className="ml-5"
+              style={tw`ml-5`}
             />
           </TouchableOpacity>
         </View>
-        
-          <View className="pl-[50px] pt-4 flex-row">
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('PostDetails', {
-                  data: item,
-                })
-              }></TouchableOpacity>
-            <Text className="text-[16px[ text-[#0000009b]">
-              {item.likes.length} {item.likes.length > 1 ? 'likes' : 'like'}
-            </Text>
-          </View>
-        
+
+        <View style={tw`pl-5 pt-4 flex-row`}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('PostDetails', {
+                data: item,
+              })
+            }></TouchableOpacity>
+          <Text style={tw`text-lg text-black`}>
+            {item.likes.length} {item.likes.length > 1 ? 'likes' : 'like'}
+          </Text>
+        </View>
 
         {isRepliesReply && (
-          <View className="pl-[50px] pt-4 flex-row">
-            <Text className="text-[16px[ text-[#0000009b]">
+          <View style={tw`pl-5 pt-4 flex-row`}>
+            <Text style={tw`text-lg text-black`}>
               {item.likes.length} {item.likes.length > 1 ? 'likes' : 'like'}
             </Text>
           </View>
@@ -320,14 +318,14 @@ const PostDetailsCard = ({
         <>
           {item.reply.length !== 0 && (
             <>
-              <View className="flex-row items-center">
+              <View style={tw`flex-row items-center`}>
                 <TouchableOpacity onPress={() => handlePress(item)}>
-                  <Text className="ml-[50px] mt-[20px] text-black text-[16px]">
+                  <Text style={tw`ml-5 mt-3 text-black text-lg`}>
                     {active ? 'Hide Replies' : 'View Replies'}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                  <Text className="ml-[10px] mt-[20px] text-black text-[16px]">
+                  <Text style={tw`ml-3 mt-3 text-black text-lg`}>
                     {item.likes.length}{' '}
                     {item.likes.length > 1 ? 'likes' : 'like'}
                   </Text>

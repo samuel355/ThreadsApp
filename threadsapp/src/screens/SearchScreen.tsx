@@ -15,6 +15,7 @@ import {
   unfollowUserAction,
 } from '../../redux/actions/userAction';
 import Loader from '../common/Loader';
+import tw from 'tailwind-react-native-classnames';
 
 type Props = {
   navigation: any;
@@ -61,22 +62,22 @@ const SearchScreen = ({navigation}: Props) => {
         <Loader />
       ) : (
         <SafeAreaView>
-          <View className="p-3">
-            <Text className="text-[30px] text-[#000] font-[600]">Search</Text>
-            <View className="relative">
+          <View style={tw`p-3`}>
+            <Text style={tw`text-2xl text-black font-bold`}>Search</Text>
+            <View style={tw`relative bg-gray-200 mt-3 items-center rounded-md flex`}>
               <Image
                 source={{
                   uri: 'https://cdn-icons-png.flaticon.com/512/2811/2811806.png',
                 }}
                 height={20}
                 width={20}
-                className="absolute top-[20px] left-2"
+                style={tw`absolute top-3 left-2`}
               />
               <TextInput
                 onChangeText={e => handleSearchChange(e)}
                 placeholder="Search"
                 placeholderTextColor={'#000'}
-                className="w-full h-[38px] bg-[#0000000e] rounded-[8px] pl-8 text-[#000] mt-[10px]"
+                style={tw`w-full pl-8 text-gray-600 py-3`}
               />
             </View>
             <FlatList
@@ -109,17 +110,18 @@ const SearchScreen = ({navigation}: Props) => {
                         item: item,
                       })
                     }>
-                    <View className="flex-row my-3">
+                    <View style={tw`flex-row my-3`}>
                       <Image
                         source={{uri: item?.avatar?.url}}
                         width={30}
                         height={30}
                         borderRadius={100}
                       />
-                      <View className="w-[90%] flex-row justify-between border-b border-[#00000020] pb-2">
+                      <View
+                        style={tw`w-90 flex-row justify-between border-b border-black pb-2`}>
                         <View>
-                          <View className="flex-row items-center relative">
-                            <Text className="pl-3 text-[18px] text-black">
+                          <View style={tw`flex-row items-center relative`}>
+                            <Text style={tw`pl-3 text-lg text-black`}>
                               {item.name}
                             </Text>
                             {item?.role === 'Admin' && (
@@ -129,23 +131,23 @@ const SearchScreen = ({navigation}: Props) => {
                                 }}
                                 width={18}
                                 height={18}
-                                className="ml-1"
+                                style={tw`ml-1`}
                               />
                             )}
                           </View>
 
-                          <Text className="pl-3 text-[18px] text-black">
+                          <Text style={tw`pl-3 text-lg text-black`}>
                             {item.userName}
                           </Text>
-                          <Text className="pl-3 mt-1 text-[16px] text-[#444]">
+                          <Text style={tw`pl-3 mt-1 text-lg text-gray-600`}>
                             {item.followers.length} followers
                           </Text>
                         </View>
                         <View>
                           <TouchableOpacity
-                            className="rounded-[8px] w-[100px] flex-row justify-center items-center h-[35px] border border-[#0000004b]"
+                            style={tw`rounded-sm w-8 flex-row justify-center items-center h-9 border border-black`}
                             onPress={() => handleFollowUnfollow(item)}>
-                            <Text className="text-black">
+                            <Text style={tw`text-black`}>
                               {item.followers.find(
                                 (i: any) => i.userId === user._id,
                               )

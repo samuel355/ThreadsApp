@@ -13,6 +13,7 @@ import {
   unfollowUserAction,
 } from '../../redux/actions/userAction';
 import PostCard from '../components/PostCard';
+import tw from 'tailwind-react-native-classnames';
 
 type Props = {
   route: any;
@@ -73,17 +74,17 @@ const UserProfileScreen = ({navigation, route}: Props) => {
         <SafeAreaView>
           {imagePreview ? (
             <TouchableOpacity
-              className="h-screen bg-white w-full items-center justify-center"
+              style={tw`h-screen bg-white w-full items-center justify-center`}
               onPress={() => setImagePreview(!imagePreview)}>
               <Image
                 source={{uri: data.avatar.url}}
-                width={250}
-                height={250}
+                width={200}
+                height={200}
                 borderRadius={500}
               />
             </TouchableOpacity>
           ) : (
-            <View className="p-2">
+            <View style={tw`p-2`}>
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Image
                   source={{
@@ -94,18 +95,16 @@ const UserProfileScreen = ({navigation, route}: Props) => {
                 />
               </TouchableOpacity>
               <ScrollView showsVerticalScrollIndicator={false}>
-                <View className="w-full flex-row">
-                  <View className='w-[80%]'>
-                    <Text className="pt-3 text-[22px] text-black">
-                      {data.name}
-                    </Text>
+                <View style={tw`w-full flex-row`}>
+                  <View style={tw`w-80`}>
+                    <Text style={tw`pt-3 text-xl text-black`}>{data.name}</Text>
                     {data.userName && (
-                      <Text className="py-2 text-[16px] text-[#0000009d]">
+                      <Text style={tw`py-2 text-lg text-black`}>
                         {data.userName}
                       </Text>
                     )}
                     {data.bio && (
-                      <Text className="py-2 text-[16px] text-[#000000c4]">
+                      <Text style={tw`py-2 text-lg text-black`}>
                         {data.bio}
                       </Text>
                     )}
@@ -117,14 +116,14 @@ const UserProfileScreen = ({navigation, route}: Props) => {
                           following: data?.following,
                         })
                       }>
-                      <Text className="py-2 text-[18px] text-[#000000c7]">
+                      <Text style={tw`py-2 text-lg text-black`}>
                         {data.followers.length} followers
                       </Text>
                     </TouchableOpacity>
                   </View>
                   <TouchableOpacity
                     onPress={() => setImagePreview(!imagePreview)}>
-                    <View className="relative">
+                    <View style={tw`relative`}>
                       <Image
                         source={{uri: data.avatar.url}}
                         width={60}
@@ -138,26 +137,27 @@ const UserProfileScreen = ({navigation, route}: Props) => {
                           }}
                           width={18}
                           height={18}
-                          className="ml-2 absolute bottom-0 left-0"
+                          style={tw`ml-2 absolute bottom-0 left-0`}
                         />
                       )}
                     </View>
                   </TouchableOpacity>
                 </View>
                 <TouchableOpacity
-                  className="mt-2 rounded-[8px] w-full flex-row justify-center items-center h-[38px] bg-black"
+                  style={tw`mt-2 rounded-md w-full flex-row justify-center items-center h-9 bg-black`}
                   onPress={FollowUnfollowHandler}>
-                  <Text className="text-white text-[18px]">
+                  <Text style={tw`text-white text-lg`}>
                     {data.followers.find((i: any) => i.userId === user._id)
                       ? 'Following'
                       : 'Follow'}
                   </Text>
                 </TouchableOpacity>
-                <View className="w-full border-b border-b-[#00000032] pt-5 pb-2 relattive">
-                  <View className="w-[80%] m-auto flex-row justify-between">
+                <View
+                  style={tw`w-full border-b border-b-[#00000032] pt-5 pb-2 relative`}>
+                  <View style={tw`w-80 m-auto flex-row justify-between`}>
                     <TouchableOpacity onPress={() => setActive(0)}>
                       <Text
-                        className="text-[18px] pl-3 text-black"
+                        className="text-lg pl-3 text-black"
                         style={{opacity: active === 0 ? 1 : 0.6}}>
                         {' '}
                         Threads
@@ -165,7 +165,7 @@ const UserProfileScreen = ({navigation, route}: Props) => {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => setActive(1)}>
                       <Text
-                        className="text-[18px] pl-3 text-black"
+                        className=""
                         style={{opacity: active === 1 ? 1 : 0.6}}>
                         {' '}
                         Replies
@@ -173,9 +173,13 @@ const UserProfileScreen = ({navigation, route}: Props) => {
                     </TouchableOpacity>
                   </View>
                   {active === 0 ? (
-                    <View className="w-[50%] absolute h-[1px] bg-black left-[-10px] bottom-0" />
+                    <View
+                      style={tw`w-50 absolute h-[1px] bg-black left-[-10px] bottom-0`}
+                    />
                   ) : (
-                    <View className="w-[50%] absolute h-[1px] bg-black right-[-10px] bottom-0" />
+                    <View
+                      style={tw`w-50 absolute h-[1px] bg-black right-[-10px] bottom-0`}
+                    />
                   )}
                 </View>
                 {active === 0 && (
@@ -189,7 +193,7 @@ const UserProfileScreen = ({navigation, route}: Props) => {
                         />
                       ))}
                     {postData.length === 0 && (
-                      <Text className="text-black py-10 text-center text-[18px]">
+                      <Text style={tw`text-black py-10 text-center text-lg`}>
                         No Post yet!
                       </Text>
                     )}
@@ -208,7 +212,7 @@ const UserProfileScreen = ({navigation, route}: Props) => {
                         />
                       ))}
                     {active !== 1 && postData.length === 0 && (
-                      <Text className="text-black py-10 text-center text-[18px]">
+                      <Text style={tw`text-black py-10 text-center text-lg`}>
                         No Post yet!
                       </Text>
                     )}

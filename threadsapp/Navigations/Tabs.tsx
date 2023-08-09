@@ -35,8 +35,8 @@ const Tabs = (props: Props) => {
                   : 'https://cdn-icons-png.flaticon.com/128/3917/3917014.png',
               }}
               style={{
-                width: 30,
-                height: 30,
+                width: 24,
+                height: 24,
                 tintColor: focused ? '#000' : '#444',
               }}
             />
@@ -56,8 +56,8 @@ const Tabs = (props: Props) => {
                   : 'https://cdn-icons-png.flaticon.com/128/3917/3917132.png',
               }}
               style={{
-                width: 30,
-                height: 30,
+                width: 24,
+                height: 24,
                 tintColor: focused ? '#000' : '#444',
               }}
             />
@@ -78,8 +78,8 @@ const Tabs = (props: Props) => {
                   : 'https://cdn-icons-png.flaticon.com/512/10015/10015412.png',
               }}
               style={{
-                width: 30,
-                height: 30,
+                width: 24,
+                height: 24,
                 tintColor: focused ? '#000' : '#444',
               }}
             />
@@ -99,8 +99,8 @@ const Tabs = (props: Props) => {
                   : 'https://cdn-icons-png.flaticon.com/512/1077/1077035.png',
               }}
               style={{
-                width: 30,
-                height: 30,
+                width: 24,
+                height: 24,
                 tintColor: focused ? '#000' : '#444',
               }}
             />
@@ -120,8 +120,8 @@ const Tabs = (props: Props) => {
                   : 'https://cdn-icons-png.flaticon.com/512/1077/1077063.png',
               }}
               style={{
-                width: 30,
-                height: 30,
+                width: 24,
+                height: 24,
                 tintColor: focused ? '#000' : '#444',
               }}
             />
